@@ -1,4 +1,9 @@
 <resources>
-    <string name="app_name">careemKotlin</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Careem Code Challenge</string>
+    <string name="action_date">Date</string>
+    <string name="tvshows">TvShows</string>
+    <string name="movies">Movies</string>
+    <string name="oops_something_went_wrong">Oops, something went wrong</string>
+    <string name="retry">Retry</string>
+    <string name="overview">Description</string>
 </resources>

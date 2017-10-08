@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="com.blackbelt.careemkotlin">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
             android:name=".MoviesApp"
             android:allowBackup="true"
@@ -11,7 +13,7 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity
-                android:name=".view.misc.MainActivity"
+                android:name=".view.SplashActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -20,6 +22,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".view.misc.MainActivity"/>
+
+        <activity android:name=".view.details.MovieDetailsActivity"/>
+
     </application>
 
 </manifest>

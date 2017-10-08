@@ -9,9 +9,14 @@ import com.blackbelt.careemkotlin.view.misc.viewmodel.BaseMovieViewModel
 
 abstract class BaseBindableActivity : BaseInjectableActivity() {
 
-    private lateinit var mMovieBaseViewModel: BaseMovieViewModel
+    private  var mMovieBaseViewModel: BaseMovieViewModel? = null
 
     private lateinit var mBinding: ViewDataBinding;
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mMovieBaseViewModel?.onCreate(savedInstanceState)
+    }
 
     fun setContentView(bindingVariable: Int, viewModel: BaseMovieViewModel, @LayoutRes layoutRes: Int) {
         mMovieBaseViewModel = viewModel
@@ -22,22 +27,21 @@ abstract class BaseBindableActivity : BaseInjectableActivity() {
 
     override fun onStart() {
         super.onStart()
-        mMovieBaseViewModel.onStart()
+        mMovieBaseViewModel?.onStart()
     }
 
     override fun onStop() {
         super.onStop()
-        mMovieBaseViewModel.onStop()
+        mMovieBaseViewModel?.onStop()
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        mMovieBaseViewModel.onPostCreate(savedInstanceState)
+        mMovieBaseViewModel?.onPostCreate(savedInstanceState)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mMovieBaseViewModel.onDestroy()
+        mMovieBaseViewModel?.onDestroy()
     }
-
 }

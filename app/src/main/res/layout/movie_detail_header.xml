@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+                name="movieDetailsViewModel"
+                type="com.blackbelt.careemkotlin.view.details.viewmodel.MovieDetailsViewModel" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            tools:ignore="MissingPrefix">
+
+
+        <RelativeLayout
+                android:layout_margin="10dp"
+                android:layout_gravity="bottom"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    app:spanCount="@{5}"
+                    app:mainPosterImageUrl="@{movieDetailsViewModel.getImageUrl()}"
+                    android:id="@+id/movie_image"
+                    android:longClickable="false"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+            <LinearLayout
+                    android:layout_toEndOf="@id/movie_image"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                <TextView
+                        style="@style/DetailsOverview"
+                        android:text="@{movieDetailsViewModel.getTitle()}"
+                        android:layout_marginLeft="@dimen/default_margin"
+                        android:layout_marginRight="@dimen/default_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="24sp"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                <TextView
+                        style="@style/DetailsOverview"
+                        android:text="@{movieDetailsViewModel.getSubtitle()}"
+                        android:layout_marginLeft="@dimen/default_margin"
+                        android:layout_marginRight="@dimen/default_margin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        tools:ignore="MissingPrefix" />
+
+                <LinearLayout
+                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    <TextView
+                            style="@style/DetailsOverview"
+                            android:text="@{movieDetailsViewModel.getReleaseDate()}"
+                            android:layout_marginLeft="@dimen/default_margin"
+                            android:layout_marginRight="@dimen/default_margin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="14sp"
+                            android:textColor="@color/black"
+                            tools:ignore="MissingPrefix" />
+
+                    <TextView
+                            android:text="@{movieDetailsViewModel.getMovieVoteAverage()}"
+                            style="@style/PosterSubtitle"
+                            tools:text="7.1"
+                            android:gravity="center_vertical"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:ignore="MissingPrefix" />
+
+                    <ImageView
+                            android:layout_marginTop="1dp"
+                            android:layout_gravity="center_vertical"
+                            android:tint="@color/colorPrimary"
+                            android:src="@drawable/ic_star_rate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+                android:layout_marginLeft="@dimen/default_margin"
+                android:text="@string/overview"
+                tools:text="I am the title"
+                style="@style/PosterTitle"
+                android:textSize="12sp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        <TextView
+                style="@style/DetailsOverview"
+                android:text="@{movieDetailsViewModel.getOverview()}"
+                android:layout_margin="@dimen/default_margin"
+                android:textSize="15sp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingPrefix" />
+
+
+    </LinearLayout>
+
+</layout>

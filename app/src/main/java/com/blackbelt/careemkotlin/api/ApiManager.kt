@@ -1,8 +1,6 @@
 package com.blackbelt.careemkotlin.api
 
-import com.blackbelt.careemkotlin.api.model.Movie
-import com.blackbelt.careemkotlin.api.model.PaginatedResponse
-import com.blackbelt.careemkotlin.api.model.TvShow
+import com.blackbelt.careemkotlin.api.model.*
 import com.google.gson.Gson
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
@@ -40,4 +38,10 @@ class ApiManager(baseUrl: String, gson: Gson, apiKeyInterceptor: ApiKeyIntercept
 
     override fun discoverMovies(query: Map<String, String>): Observable<PaginatedResponse<Movie>>
             = mApiService.discoverMovies(query)
+
+    override fun getConfiguration(): Observable<Configuration> = mApiService.getConfiguration()
+
+    override fun getMovieDetails(id: Int, append: String): Observable<MovieDetails> = mApiService.getMovieDetail(id, append)
+
+    override fun getTvShowDetails(id: Int, append: String): Observable<TvShowDetails> = mApiService.getTvShowDetails(id, append)
 }

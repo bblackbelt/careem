@@ -1,40 +1,53 @@
 package com.blackbelt.careemkotlin.view.misc
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
-import android.view.Menu
+import android.support.design.widget.TabLayout
+import android.support.v4.view.ViewPager
 import android.view.MenuItem
 import com.blackbelt.careemkotlin.R
+import com.blackbelt.careemkotlin.movies.MoviePage
+import com.blackbelt.careemkotlin.view.adapters.MainFragmentStatePagerAdapter
+import com.blackbelt.careemkotlin.view.adapters.model.FragmentModel
+import com.blackbelt.careemkotlin.view.movies.MoviesFragment
+import java.util.*
 
-import kotlinx.android.synthetic.main.activity_main.*
+const val MOVIE_PAGE_KEY = "MOVIE_PAGE_KEY"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseInjectableActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.title = null
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        val viewPager = findViewById<ViewPager>(R.id.main_view_pager)
+
+        val fragmentModel = ArrayList<FragmentModel>()
+        var bundle = Bundle()
+        bundle.putString(MOVIE_PAGE_KEY, MoviePage.Movie.name)
+        fragmentModel.add(FragmentModel(resources.getString(R.string.movies),
+                MoviesFragment::class.java, bundle))
+
+        bundle = Bundle()
+        bundle.putString(MOVIE_PAGE_KEY, MoviePage.TvShows.name)
+
+        fragmentModel.add(FragmentModel(resources.getString(R.string.tvshows),
+                MoviesFragment::class.java, bundle))
+
+        viewPager.adapter = MainFragmentStatePagerAdapter(this, fragmentModel)
+
+        val tabLayout = findViewById<TabLayout>(R.id.tablayout)
+        tabLayout.setupWithViewPager(viewPager)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            finish()
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 }

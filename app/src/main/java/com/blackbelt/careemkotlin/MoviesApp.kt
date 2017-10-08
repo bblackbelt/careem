@@ -3,6 +3,7 @@ package com.blackbelt.careemkotlin
 import android.app.Activity
 import android.app.Application
 import com.blackbelt.careemkotlin.di.DaggerMoviesComponent
+import com.blackbelt.careemkotlin.di.ManagersModule
 import com.blackbelt.careemkotlin.di.SystemModule
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -21,6 +22,7 @@ class MoviesApp : Application(), HasActivityInjector {
                 .builder()
                 .application(this)
                 .systemModule(SystemModule(this))
+                .managersModule(ManagersModule())
                 .build()
                 .inject(this)
 

@@ -9,6 +9,7 @@ import javax.inject.Singleton
 @Singleton
 @Component(modules = arrayOf(
         AndroidSupportInjectionModule::class,
+        ManagersModule::class,
         BuildersModule::class,
         SystemModule::class))
 interface MoviesComponent {
@@ -22,6 +23,8 @@ interface MoviesComponent {
         fun application(application: MoviesApp): Builder
 
         fun systemModule(systemModule: SystemModule): Builder
+
+        fun managersModule(managersModule: ManagersModule) : Builder
 
         fun build(): MoviesComponent
     }

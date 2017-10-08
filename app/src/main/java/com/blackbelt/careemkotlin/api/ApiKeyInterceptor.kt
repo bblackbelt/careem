@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class ApiKeyInterceptor @Inject constructor() : Interceptor {
 
-    private var API_KEY = ""
+    private var API_KEY = "aa44bddf5e400ed934a919db7eaf14db"
 
     override fun intercept(chain: Interceptor.Chain?): Response? {
         val original = chain?.request()
