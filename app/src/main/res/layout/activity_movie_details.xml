@@ -19,7 +19,7 @@
             fresco:ignore="MissingPrefix">
 
         <FrameLayout
-                android:visibility="@{movieDetailsViewModel.isLoading ? View.GONE : View.VISIBLE }"
+                android:visibility="@{movieDetailsViewModel.isContent ? View.VISIBLE : View.GONE }"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -94,6 +94,13 @@
                 android:layout_margin="@dimen/default_margin"
                 android:indeterminate="true"
                 tools:ignore="MissingPrefix" />
+
+        <include
+                app:movieDetailsViewModel="@{movieDetailsViewModel}"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                layout="@layout/error_layout" />
+
     </FrameLayout>
 
 </layout>

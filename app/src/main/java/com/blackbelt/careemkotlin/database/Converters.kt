@@ -20,12 +20,22 @@ class Converters {
     @TypeConverter
     fun restoreList(listOfString: String): List<String> {
         return Gson().fromJson(listOfString, object : TypeToken<List<String>>() {
-
         }.type)
     }
 
     @TypeConverter
     fun saveList(listOfString: List<String>): String {
+        return Gson().toJson(listOfString)
+    }
+
+    @TypeConverter
+    fun restoreIntList(listOfString: String): List<Int> {
+        return Gson().fromJson(listOfString, object : TypeToken<List<Int>>() {
+        }.type)
+    }
+
+    @TypeConverter
+    fun saveIntList(listOfString: List<Int>): String {
         return Gson().toJson(listOfString)
     }
 }

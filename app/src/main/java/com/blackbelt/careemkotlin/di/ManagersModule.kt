@@ -31,8 +31,8 @@ class ManagersModule {
 
     @Singleton
     @Provides
-    fun provideMoviesManager(apiManager: IApiManager): IMoviesManager
-            = MoviesManager(apiManager)
+    fun provideMoviesManager(apiManager: IApiManager, moviesDatabase: MoviesDatabase): IMoviesManager
+            = MoviesManager(apiManager, moviesDatabase)
 
     @Singleton
     @Provides

@@ -2,20 +2,28 @@ package com.blackbelt.careemkotlin.view.details.viewmodel
 
 import android.databinding.Bindable
 import android.databinding.ObservableArrayList
+import android.text.TextUtils
 import com.blackbelt.careemkotlin.BR
 import com.blackbelt.careemkotlin.R
+import com.blackbelt.careemkotlin.api.model.MovieDetails
+import com.blackbelt.careemkotlin.api.model.TvShowDetails
 import com.blackbelt.careemkotlin.bindable.AndroidBaseItemBinder
 import com.blackbelt.careemkotlin.movies.IMoviesManager
 import com.blackbelt.careemkotlin.movies.MoviePage
 import com.blackbelt.careemkotlin.pictures.IPictureManager
 import com.blackbelt.careemkotlin.view.MovieItemDetails
 import com.blackbelt.careemkotlin.view.misc.viewmodel.BaseMovieViewModel
+import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.Disposables
 import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
 class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePage,
                                                 moviesManager: IMoviesManager, pictureManager: IPictureManager) : BaseMovieViewModel() {
+
+    val mMovieId = movieId
+    val mMoviePage = moviePage
 
     val mSimpleDateFormatIn = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     val mSimpleDateFormatOut = SimpleDateFormat("yyyy", Locale.getDefault())
@@ -27,6 +35,12 @@ class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePa
 
     val mImages = ObservableArrayList<ImageViewModel>()
 
+    var mDetails: Disposable = Disposables.disposed()
+
+    private var mError = false
+
+    private var mLoading = true
+
     var mTemplates: Map<Class<*>, AndroidBaseItemBinder>
         @Bindable get() = field
 
@@ -37,7 +51,17 @@ class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePa
     }
 
     private fun loadDetails(movieId: Int, moviePage: MoviePage) {
-        mMoviesManager.loadDetails(movieId, moviePage)
+        setLoading(true)
+        mDetails.dispose()
+        mDetails = mMoviesManager.loadDetails(movieId, moviePage)
+                .filter { t: MovieItemDetails ->
+                    if ((t as? TvShowDetails) == TvShowDetails.EMPTY ||
+                            (t as? MovieDetails) == MovieDetails.EMPTY) {
+                        notifyError(true)
+                        return@filter false
+                    }
+                    true
+                }
                 .map { details ->
                     details.getBackdrops().mapTo(mImages, { ImageViewModel(it, mPictureManager) })
                     details
@@ -49,7 +73,11 @@ class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePa
                 }, Throwable::printStackTrace)
     }
 
-    private var mLoading: Boolean = true
+    private fun notifyError(error: Boolean) {
+        setLoading(false)
+        mError = error
+        notifyChange()
+    }
 
     private fun setLoading(b: Boolean) {
         mLoading = b
@@ -57,8 +85,18 @@ class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePa
     }
 
     @Bindable
+    fun isError(): Boolean {
+        return mError
+    }
+
+    @Bindable
     fun isLoading(): Boolean {
         return mLoading;
+    }
+
+    @Bindable
+    fun isContent(): Boolean {
+        return !isLoading() && !isError()
     }
 
     @Bindable
@@ -84,12 +122,25 @@ class MovieDetailsViewModel @Inject constructor(movieId: Int, moviePage: MoviePa
 
     @Bindable
     fun getReleaseDate(): String? {
-        val releaseDate = mMovieItem?.getMovieReleaseDate() ?: return ""
+        if (TextUtils.isEmpty(mMovieItem?.getMovieReleaseDate())) {
+            return ""
+        }
+        val releaseDate = mMovieItem?.getMovieReleaseDate()
         val formatter = mSimpleDateFormatIn.parse(releaseDate)
         return mSimpleDateFormatOut.format(formatter)
     }
 
-    fun getMovieVoteAverage() : String? {
+    fun getMovieVoteAverage(): String? {
         return mMovieItem?.getMovieVoteAverage()
+    }
+
+    fun onRetryClicked() {
+        notifyError(false)
+        loadDetails(mMovieId, mMoviePage)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mDetails.dispose()
     }
 }

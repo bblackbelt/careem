@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import com.blackbelt.careemkotlin.R
 import com.blackbelt.careemkotlin.api.model.Configuration
+import com.blackbelt.careemkotlin.database.MoviesDatabase
 import com.blackbelt.careemkotlin.pictures.IConfigurationManager
 import com.blackbelt.careemkotlin.view.misc.BaseInjectableActivity
 import com.blackbelt.careemkotlin.view.misc.MainActivity
@@ -16,6 +17,9 @@ class SplashActivity : BaseInjectableActivity() {
 
     @Inject
     lateinit var mConfigurationManager: IConfigurationManager
+
+    @Inject
+    lateinit var mMovieDatabase: MoviesDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

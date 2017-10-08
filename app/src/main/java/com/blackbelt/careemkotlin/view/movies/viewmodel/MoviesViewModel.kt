@@ -72,7 +72,10 @@ class MoviesViewModel @Inject constructor(moviesManager: IMoviesManager, picture
                 .subscribe({
                     notifyChange()
                     setLoading(false)
-                }, Throwable::printStackTrace)
+                }, { t: Throwable ->
+                    setLoading(false)
+                    t.printStackTrace()
+                })
     }
 
     @Bindable
@@ -114,7 +117,7 @@ class MoviesViewModel @Inject constructor(moviesManager: IMoviesManager, picture
     }
 
     fun isProgressLoader(pos: Int): Boolean {
-        return mItems[pos] is ProgressLoader
+        return mItems.getOrNull(pos) is ProgressLoader
     }
 
     fun updateDate(year: Int, month: Int, day: Int) {

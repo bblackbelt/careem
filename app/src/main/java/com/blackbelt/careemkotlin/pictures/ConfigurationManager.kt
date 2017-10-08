@@ -41,9 +41,15 @@ class ConfigurationManager(apiManager: IApiManager, moviesDatabase: MoviesDataba
                     configurations[0]
                 })
                 .distinctUntilChanged()
-                .flatMap({ networkConfiguration })
+                .flatMap({ conf ->
+                    if (conf == Configuration.EMPTY) {
+                        return@flatMap networkConfiguration
+                    }
+                    return@flatMap Observable.just(conf)
+                })
                 .subscribe({ conf ->
-                    if (!mConfigurationSubject.hasValue()) {
+                    if (!mConfigurationSubject.hasValue()
+                            || mConfigurationSubject.value == Configuration.EMPTY) {
                         mConfigurationSubject.onNext(conf)
                     }
                 }, Throwable::printStackTrace)

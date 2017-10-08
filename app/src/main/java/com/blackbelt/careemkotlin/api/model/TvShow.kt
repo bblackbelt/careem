@@ -1,19 +1,23 @@
 package com.blackbelt.careemkotlin.api.model
 
+import android.arch.persistence.room.Entity
+import android.arch.persistence.room.PrimaryKey
 import android.text.TextUtils
 import com.blackbelt.careemkotlin.movies.MoviePage
 import com.blackbelt.careemkotlin.view.model.MovieItem
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
-class TvShow(@Expose var id: Int = 0,
+@Entity
+class TvShow(@PrimaryKey @Expose var id: Int = 0,
              @Expose @SerializedName("name") var title: String = "",
              @Expose @SerializedName("original_name") var originalTitle: String = "",
              @Expose @SerializedName("backdrop_path") var backdropPath: String = "",
              @Expose @SerializedName("poster_path") var posterPath: String = "",
              @Expose @SerializedName("overview") var overview: String = "",
              @Expose @SerializedName("vote_average") var voteAverage: Float = 0f,
-             @Expose @SerializedName("release_date") var releaseDate: String = "") : MovieItem {
+             @Expose @SerializedName("release_date") var releaseDate: String = "",
+             var media: String = MoviePage.TvShows.name) : MovieItem {
 
 
     override fun getMovieTitle(): String {
@@ -36,6 +40,6 @@ class TvShow(@Expose var id: Int = 0,
     }
 
     override fun getMediaType(): String {
-        return MoviePage.TvShows.name
+        return media
     }
 }
